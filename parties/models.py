@@ -28,24 +28,16 @@ class Party(models.Model):
     is_wallet_party = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        verbose_name = "Party"
+        verbose_name_plural = "Parties"
+
     def __str__(self):
         return self.name
 
     @property
     def get_display_text(self):
         return self.name
-
-    @property
-    def get_absolute_url(self):
-        return reverse_lazy("parties:detail", kwargs={"party_code": self.party_code})
-
-    @property
-    def get_update_url(self):
-        return reverse_lazy("parties:update", kwargs={"party_code": self.party_code})
-
-    @property
-    def get_challan_ad_url(self):
-        return str(reverse_lazy("challans:add")) + "?ptid={}".format(self.id)
 
     @property
     def get_wallet(self):
@@ -68,20 +60,29 @@ class Party(models.Model):
             if self.rate_type == "GR" and not self.rate_group:
                 raise ValidationError("Rate Group is must for party with Group Rate Type")
 
-    class Meta:
-        verbose_name = "Party"
-        verbose_name_plural = "Parties"
+    @property
+    def get_absolute_url(self):
+        return reverse_lazy("parties:detail", kwargs={"party_code": self.party_code})
+
+    @property
+    def get_update_url(self):
+        return reverse_lazy("parties:update", kwargs={"party_code": self.party_code})
+
+    @property
+    def get_challan_ad_url(self):
+        return str(reverse_lazy("challans:add")) + "?ptid={}".format(self.id)
 
 
 def party_code_generator(party):
-    return "{}{}".format(settings.PARTY_CODE_PREFIX, party.id)
+    return "{}{}".format(settings.PARTY_CODE_PREFIX, "{:03}".format(party.id))
 
 
 def assign_party_code(sender, instance, *args, **kwargs):
-    party_code = party_code_generator(instance)
-    if instance.party_code != party_code:
-        instance.party_code = party_code
-        instance.save()
+    if not instance.party_code:
+        party_code = party_code_generator(instance)
+        if instance.party_code != party_code:
+            instance.party_code = party_code
+            instance.save()
 
 
 def create_party_wallet(sender, instance, *args, **kwargs):
