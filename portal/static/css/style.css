@@ -1,0 +1,21 @@
+.weight_entry_input{
+    border: none;
+    border-bottom: 2px solid lightgray;
+    border-radius: 0;
+}
+
+.btn:hover, .btn:focus{
+    box-shadow: 0 0 20px black;
+}
+
+.bg-info-us{
+    background-color: #e6f0ff!important;
+}
+
+.bg-success-us{
+    background-color: #ccffcc!important;
+}
+
+.bg-danger-us{
+    background-color: #ffcccc!important;
+}
