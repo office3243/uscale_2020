@@ -117,6 +117,8 @@ class CashTransaction(models.Model):
     photo = models.ImageField(upload_to="payments/account_transactions/photos/", blank=True, null=True)
     status = models.CharField(max_length=2, choices=STATUS_CHOICES, default="DN")
 
+    created_on = models.DateField(auto_now_add=True)
+
     def __str__(self):
         return str(self.amount)
 

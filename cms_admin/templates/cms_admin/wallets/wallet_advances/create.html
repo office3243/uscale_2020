@@ -27,11 +27,14 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6 form-group">
+                            <div class="col-lg-4 form-group">
                                 {{ form.amount|as_crispy_field }}
                             </div>
-                            <div class="col-lg-6 form-group">
+                            <div class="col-lg-4 form-group">
                                 {{ form.gateway|as_crispy_field }}
+                            </div>
+                            <div class="col-lg-4 form-group">
+                                {{ form.payment_no|as_crispy_field }}
                             </div>
                         </div>
                         <button class="btn btn-success" type="submit">Create</button>

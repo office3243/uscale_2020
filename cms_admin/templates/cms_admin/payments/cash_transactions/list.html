@@ -1,0 +1,71 @@
+{% extends "cms_admin/base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Cash Transaction List{% endblock %}
+
+{% block custom_links %}
+    <link href="{% static "css/addons/datatables.min.css" %}" rel="stylesheet">
+    <link href="{% static "css/addons/datatables-select.min.css" %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <br><br>
+    <div class="col-lg-11 m-auto">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3 class="m-auto">Cash Transaction List</h3>
+            </div>
+            <div class="card-body">
+                 <div class="table p-3 border" style="border-radius: 5px">
+                     <table id="dt-basic-checkbox" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                         <thead class="thead-light">
+                            <th>Date</th>
+                            <th>Challan</th>
+                            <th>Party</th>
+                            <th>Cash Code</th>
+                            <th>Amount</th>
+                            <th>Ch Rm Amount</th>
+                            <th>Ch Total Amount</th>
+                         </thead>
+                         <tbody>
+                             {% if cash_transactions %}
+                                 {% for cash_transaction in cash_transactions %}
+                                     <tr>
+                                        <td>{{ cash_transaction.created_on }}</td>
+                                        <td>{{ cash_transaction.payment.challan.challan_no }}</td>
+                                        <td>{{ cash_transaction.payment.challan.party }}</td>
+                                        <td>{{ cash_transaction.cash_code }}</td>
+                                        <td>{{ cash_transaction.amount }}</td>
+                                        <td class="bg-danger-us">{{ cash_transaction.payment.get_remaining_amount }}</td>
+                                        <td class="bg-info-us">{{ cash_transaction.payment.amount }}</td>
+                                     </tr>
+                                 {% endfor %}
+                             {% else %}
+                                 <span class="text-black-50 font-weight-bold">No Parties Found</span>
+                             {% endif %}
+                         </tbody>
+                    </table>
+                    {% include "portal/goback_btn.html" %}
+                 </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block custom_script %}
+    <script type="text/javascript" src="{% static "js/addons/datatables.min.js" %}"></script>
+    <script src="{% static "js/addons/datatables-select.min.js" %}" rel="stylesheet"></script>
+    <script>
+        $('#dt-basic-checkbox').dataTable({
+
+        "pageLength": 25,
+
+        columnDefs: [{
+        orderable: false,
+        targets: 0
+        }],
+
+        });
+    </script>
+{% endblock %}

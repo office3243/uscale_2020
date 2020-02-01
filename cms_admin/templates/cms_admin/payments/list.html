@@ -44,7 +44,7 @@
                                         <td class="bg-danger-us">{{ payment.get_remaining_amount }}</td>
                                         <td>{{ payment.get_ac_tr_amount }} ({% for actr in payment.accounttransaction_set.all %}{{ actr.actr_no }}{% if not forloop.last %} / {% endif %}{% endfor %})</td>
                                         <td>{{ payment.get_wallet_tr_amount }}</td>
-                                        <td>{{ payment.get_cash_tr_amount }}</td>
+                                        <td>{{ payment.get_cash_tr_amount }}{{ payment.get_cash_tr_amount }} ({% for cs in payment.cashtransaction_set.all %}{{ cs.cash_code }}{% if not forloop.last %} / {% endif %}{% endfor %})</td>
                                         <td>
                                             {% if payment.status == "DN" %}
                                                 <i class="fa fa-check text-success"></i>

@@ -48,6 +48,14 @@ class AccountTransactionListView(ExecutiveRequiredMixin, ListView):
     ordering = "-id"
 
 
+class CashTransactionListView(ExecutiveRequiredMixin, ListView):
+
+    model = CashTransaction
+    template_name = "cms_admin/payments/cash_transactions/list.html"
+    context_object_name = "cash_transactions"
+    ordering = "-id"
+
+
 class AccountTransactionDetailView(ExecutiveRequiredMixin, DetailView):
 
     model = AccountTransaction
@@ -87,7 +95,7 @@ class WalletAdvanceCreateView(ExecutiveRequiredMixin, CreateView):
     model = WalletAdvance
     template_name = "cms_admin/wallets/wallet_advances/create.html"
     success_url = reverse_lazy("cms_admin:wallet_advances_list")
-    fields = ("wallet", "amount", "gateway", "payed_on")
+    fields = ("wallet", "amount", "gateway", "payed_on", "payment_no")
 
 
 class WalletUpdateView(ExecutiveRequiredMixin, UpdateView):

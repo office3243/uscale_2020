@@ -161,6 +161,7 @@ class WalletAdvance(models.Model):
     gateway = models.CharField(max_length=2, choices=GATEWAY_CHOICES, default="CS")
     opening_balance = models.DecimalField(default=Decimal(0.0), max_digits=7, decimal_places=2)
     remaining_balance = models.DecimalField(default=Decimal(0.0), max_digits=7, decimal_places=2)
+    payment_no = models.CharField(max_length=12, default=settings.ACTR_NO_PREFIX)
 
     payed_on = models.DateField(verbose_name="Payed On")
 
