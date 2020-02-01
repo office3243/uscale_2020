@@ -18,3 +18,8 @@ def get_branch_id():
 def get_actr_prefix():
     return settings.ACTR_NO_PREFIX
 
+
+@register.simple_tag
+def get_cash_code_prefix():
+    return settings.CASH_CODE_PREFIX
+

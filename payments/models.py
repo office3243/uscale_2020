@@ -110,6 +110,7 @@ class CashTransaction(models.Model):
     STATUS_CHOICES = (("PN", "Pending"), ("DN", "Done"))
 
     payment = models.ForeignKey("Payment", on_delete=models.CASCADE)
+    cash_code = models.CharField(max_length=12, default=settings.CASH_CODE_PREFIX)
     amount = models.DecimalField(max_digits=9, decimal_places=2)
     payed_on = models.DateField(blank=True, null=True)
     extra_info = models.TextField(blank=True)

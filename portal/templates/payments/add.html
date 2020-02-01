@@ -113,7 +113,7 @@
                                     <td>{{ cs_transaction.payed_on }}</td>
                                     <td>{{ cs_transaction.amount }}</td>
                                     <td>-</td>
-                                    <td>-</td>
+                                    <td>{{ cs_transaction.cash_code }}</td>
                                     <td>
                                         {% if cs_transaction.status == "DN" %}
                                             <i class="fa fa-check text-success"></i>
@@ -150,7 +150,7 @@
                                 <h4 class="m-auto">Payment Methods</h4>
                             </div>
                             <div class="card-body">
-                                <form action="{% url "payments:add" challan_no=challan.challan_no %}" method="post">
+                                <form onsubmit="formValidate(this, event);" action="{% url "payments:add" challan_no=challan.challan_no %}" method="post">
 
                                     {% csrf_token %}
 
@@ -192,14 +192,22 @@
                                                 <label class="custom-control-label" for="is_cash">Do You Want Cash Transaction ? </label>
                                             </div>
                                             <br>
-                                            <div class="row cash_mode_section" style="margin-left: 20px;display: none">
-                                                <div class="form-group col-lg-6">
-                                                    <label for="cash_amount">Cash Amount</label>
-                                                    <input name="cash_amount" class="form-control" id="cash_amount" type="number">
+                                            <div class="cash_mode_section" style="margin-left: 20px;display: none">
+                                                <div class="row">
+                                                    <div class="form-group col-lg-6">
+                                                        <label for="cash_amount">Cash Amount</label>
+                                                        <input name="cash_amount" class="form-control" id="cash_amount" type="number">
+                                                    </div>
                                                 </div>
-                                                <div class="form-group col-lg-6">
-                                                    <label for="cash_payment_date">Date</label>
-                                                    <input class="form-control dateinput" id="cash_payment_date" name="cash_payment_date" type="text" value="dd/mm/yyyy">
+                                                <div class="row">
+                                                    <div class="form-group col-lg-6">
+                                                        <label for="cash_payment_date">Date</label>
+                                                        <input class="form-control dateinput" id="cash_payment_date" name="cash_payment_date" type="text" value="dd/mm/yyyy">
+                                                    </div>
+                                                    <div class="form-group col-lg-6">
+                                                        <label for="cash_payment_date">Cash Code</label>
+                                                        <input to_validate="false" required name="cash_code" class="form-control" id="cash_code" type="text" value="{% get_cash_code_prefix %}">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <hr>
@@ -382,9 +390,11 @@
         $("#is_cash").on("change", function () {
            if ($(this).prop("checked") === false){
                $(".cash_mode_section").hide();
+               $("#cash_code").attr("to_validate", "false");
            }
            else{
                $(".cash_mode_section").show();
+               $("#cash_code").attr("to_validate", "true");
            }
         });
 
@@ -450,8 +460,22 @@
             {#assign_ac_less_deduct_type();#}
         });
 
-
-
+        function formValidate(element, event) {
+            event.preventDefault();
+            let cash_code_elm = $("#cash_code");
+            if (cash_code_elm.attr("to_validate") === "true"){
+                let cash_code_val = cash_code_elm.val();
+                if (cash_code_val.includes("{% get_cash_code_prefix %}") && cash_code_val!=="DPC"){
+                    element.submit();
+                }
+                else{
+                    cash_code_elm.focus();
+                }
+            }
+            else {
+                element.submit();
+            }
+        }
 
     </script>
 

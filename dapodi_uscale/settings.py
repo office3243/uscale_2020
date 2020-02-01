@@ -25,7 +25,7 @@ SECRET_KEY = 'p@v)ko#-@pdv+vojlh$emqk)2__dbn9ca1ajd=y+qvz5pt8f$2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'dapodiuscale.pythonanywhere.com']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -153,6 +153,7 @@ BRANCH_NAME = "Dapodi"
 ACTR_NO_PREFIX = BRANCH_ID + "P"
 PARTY_CODE_PREFIX = BRANCH_ID + "V"
 CHALLAN_NO_PREFIX = BRANCH_ID + "CH"
+CASH_CODE_PREFIX = BRANCH_ID + "C"
 
 LOGIN_URL = reverse_lazy("accounts:login")
 LOGIN_REDIRECT_URL = reverse_lazy("portal:home")

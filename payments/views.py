@@ -110,10 +110,11 @@ def add(request, challan_no):
             return redirect(challan.get_payment_add_url)
         if cash_amount:
             cash_payment_date = (request.POST.get('cash_payment_date') or None)
+            cash_code = (request.POST.get('cash_code') or "-")
             if cash_payment_date is not None:
                 cash_payment_date = timezone.datetime.strptime(cash_payment_date, "%d/%m/%Y")
-            cash_transaction = CashTransaction.objects.create(payment=payment, amount=cash_amount,
-                                                              payed_on=cash_payment_date, status="DN")
+            cash_transaction = CashTransaction.objects.create(payment=payment, amount=cash_amount, payed_on=cash_payment_date,
+                                                              status="DN", cash_code=cash_code)
         if account_amount_1:
             bank_account_id_1 = (request.POST.get('bank_account') or None)
             ac_payment_date = (request.POST.get('ac_payment_date') or None)
