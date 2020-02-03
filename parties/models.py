@@ -74,7 +74,7 @@ class Party(models.Model):
 
 
 def party_code_generator(party):
-    return "{}{}".format(settings.PARTY_CODE_PREFIX, "{:03}".format(party.id-55))
+    return "{}{}".format(settings.PARTY_CODE_PREFIX, "{:03}".format(party.id-57))
 
 
 def assign_party_code(sender, instance, *args, **kwargs):
