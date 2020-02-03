@@ -33,11 +33,11 @@ class Party(models.Model):
         verbose_name_plural = "Parties"
 
     def __str__(self):
-        return self.name
+        return "{} - {}".format(self.party_code, self.name)
 
     @property
     def get_display_text(self):
-        return self.name
+        return "{} - {}".format(self.party_code, self.name)
 
     @property
     def get_wallet(self):
@@ -78,11 +78,11 @@ def party_code_generator(party):
 
 
 def assign_party_code(sender, instance, *args, **kwargs):
-    if not instance.party_code:
-        party_code = party_code_generator(instance)
-        if instance.party_code != party_code:
-            instance.party_code = party_code
-            instance.save()
+    # if not instance.party_code:
+    party_code = party_code_generator(instance)
+    if instance.party_code != party_code:
+        instance.party_code = party_code
+        instance.save()
 
 
 def create_party_wallet(sender, instance, *args, **kwargs):

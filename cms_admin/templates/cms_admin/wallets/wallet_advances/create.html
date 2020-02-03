@@ -1,7 +1,7 @@
 {% extends "cms_admin/base.html" %}
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
-
+{% load constant_tags %}
 
 {% block title %}Create Wallet Advance{% endblock %}
 
@@ -43,4 +43,26 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block custom_script %}
+    <script>
+        let gateway_elem = $("#id_gateway");
+        let payment_no_elem = $("#id_payment_no");
+        gateway_elem.on("change", function () {
+            if (gateway_elem.val()==="AC"){
+                payment_no_elem.val("{% get_actr_prefix %}")
+            }
+            else if (gateway_elem.val()==="CS"){
+                payment_no_elem.val("{% get_cash_code_prefix %}")
+            }
+            else{
+                payment_no_elem.val("-")
+            }
+        });
+
+        $(function () {
+            gateway_elem.change();
+        })
+    </script>
 {% endblock %}

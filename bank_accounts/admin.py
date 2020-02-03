@@ -4,7 +4,7 @@ from .models import BankAccount
 
 class BankAccountAdmin(admin.ModelAdmin):
 
-    list_display = ("party", "acc_no", "ifsc_code", "bank_name", "branch_name")
+    list_display = ("party", "account_code", "acc_no", "ifsc_code", "bank_name", "branch_name")
     list_filter = ("party", "bank_name")
 
 
