@@ -7,7 +7,7 @@ from django.db.models.signals import post_save, pre_save
 
 class BankAccount(models.Model):
     party = models.ForeignKey("parties.Party", on_delete=models.CASCADE)
-    account_code = models.CharField(max_length=7, unique=True)
+    account_code = models.CharField(max_length=7, default="")
     amount_limit = models.DecimalField(max_digits=9, decimal_places=2, default=Decimal(1000000), editable=False)
     account_holder = models.CharField(max_length=128)
     acc_no = models.CharField(max_length=32)
