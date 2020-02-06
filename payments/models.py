@@ -132,7 +132,6 @@ class WalletTransaction(models.Model):
     payment = models.ForeignKey("Payment", on_delete=models.CASCADE)
     wallet = models.ForeignKey("parties.Wallet", on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=9, decimal_places=2, default=Decimal(0.00))
-    payed_on = models.DateField(blank=True, null=True)
     deducted_amount = models.DecimalField(max_digits=9, decimal_places=2, default=Decimal(0.00))
 
     previous_balance = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
@@ -178,7 +177,6 @@ def assign_remaining_balance(sender, created, instance, *args, **kwargs):
         if instance.remaining_balance != remaining_balance:
             instance.remaining_balance = remaining_balance
             instance.save()
-
 
 post_save.connect(assign_previous_balance, sender=WalletTransaction)
 post_save.connect(assign_remaining_balance, sender=WalletTransaction)

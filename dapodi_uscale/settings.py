@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'widget_tweaks',
+    'import_export',
 
     'cms_admin',
     'portal',
@@ -148,12 +149,13 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 SITE_DOMAIN = "127.0.0.1:8000"
 
-BRANCH_ID = "KG"
-BRANCH_NAME = "Khada Garage"
+BRANCH_ID = "DP"
+BRANCH_NAME = "Dapodi"
 ACTR_NO_PREFIX = BRANCH_ID + "P"
 PARTY_CODE_PREFIX = BRANCH_ID + "V"
 CHALLAN_NO_PREFIX = BRANCH_ID + "CH"
 CASH_CODE_PREFIX = BRANCH_ID + "C"
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 LOGIN_URL = reverse_lazy("accounts:login")
 LOGIN_REDIRECT_URL = reverse_lazy("portal:home")

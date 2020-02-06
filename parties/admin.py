@@ -1,12 +1,13 @@
 from django.contrib import admin
 from .models import Party, Wallet, WalletAdvance
+from import_export.admin import ImportExportModelAdmin
 
 
 def get_party_name(instance):
     return instance.party.name
 
 
-class PartyAdmin(admin.ModelAdmin):
+class PartyAdmin(ImportExportModelAdmin):
 
     list_display = ("party_code", "name", "phone", "email", "is_wallet_party")
 
@@ -17,10 +18,11 @@ class WalletAdmin(admin.ModelAdmin):
 
 
 class WalletAdvanceAdmin(admin.ModelAdmin):
-
-    list_display = ("wallet", "amount", "payed_on")
-    list_filter = ("wallet", "amount", "payed_on")
-    list_editable = ("payed_on", )
+    pass
+    #
+    # list_display = ("wallet", "amount", "payed_on", "p_2")
+    # list_filter = ("wallet", "amount", "payed_on")
+    # list_editable = ("payed_on", )
 
 
 admin.site.register(Party, PartyAdmin)

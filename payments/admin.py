@@ -37,9 +37,8 @@ admin.site.register(CashTransaction, CashTransactionAdmin)
 
 class WalletTransactionAdmin(admin.ModelAdmin):
 
-    list_display = ("amount", "payed_on")
-    list_filter = ("wallet__deduct_type", "payment__challan__party", "payed_on")
-    list_editable = ("payed_on", )
+    list_display = ("amount", )
+    list_filter = ("wallet__deduct_type", "payment__challan__party")
 
 
 admin.site.register(WalletTransaction, WalletTransactionAdmin)

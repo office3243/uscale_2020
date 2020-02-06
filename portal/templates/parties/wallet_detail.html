@@ -62,7 +62,10 @@
                                 <tbody>
                                     {% for wa in wallet.walletadvance_set.all|dictsortreversed:"id" %}
                                         <tr style="background-color: #b3ffb3">
-                                            <td>{{ wa.payed_on }}</td>
+                                            <td>
+                                                <span style="display: nonex">{{ wa.payed_on|date:"Y/m/d" }}</span>
+{#                                                {{ wa.payed_on }}#}
+                                            </td>
                                             <td>{{ wa.opening_balance }}</td>
                                             <td>-</td>
                                             <td>-</td>
@@ -72,7 +75,10 @@
                                     {% endfor %}
                                     {% for wallet_tr in wallet.wallettransaction_set.all|dictsortreversed:"id" %}
                                         <tr style="background-color: #ffc2b3">
-                                            <td>{{ wallet_tr.payment.challan.created_on }}</td>
+                                            <td>
+                                                <span style="display: none">{{ wallet_tr.payment.challan.created_on|date:"Y/m/d" }}</span>
+                                                {{ wallet_tr.payment.challan.created_on }}
+                                            </td>
                                             <td>{{ wallet_tr.previous_balance }}</td>
                                             <td>{{ wallet_tr.payment.challan.challan_no }}</td>
                                             <td>{{ wallet_tr.amount }}</td>
@@ -100,8 +106,9 @@
 {% block custom_script %}
     <script>
         $('#wellet_history_table').dataTable({
-        "searching": false,
-        "paging": false,
+            "searching": false,
+            "paging": false,
+            "order": [[0, "asc"]],
         });
     </script>
 {% endblock %}

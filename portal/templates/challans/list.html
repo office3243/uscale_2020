@@ -43,7 +43,10 @@
                                     <tr>
                                         <td>{{ challan.party.name }}</td>
                                         <td><a href="{{ challan.get_absolute_url }}">{{ challan.challan_no }}</a></td>
-                                        <td>{{ challan.get_date_display }}</td>
+                                        <td>
+                                            <span style="display: none">{{ challan.created_on|date:"Y/m/d" }}</span>
+                                            {{ challan.get_date_display }}
+                                        </td>
                                         <td class="bg-danger-us">{{ challan.payment.get_remaining_amount }}</td>
                                         <td class="bg-info-us">{{ challan.total_amount }}</td>
                                         <td>
@@ -84,6 +87,7 @@
     <script>
         $('#dt-basic-checkbox').dataTable({
         "pageLength": 25,
+        "order": [[2, "desc"]],
         });
     </script>
 {% endblock %}

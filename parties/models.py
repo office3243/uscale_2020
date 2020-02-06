@@ -163,7 +163,8 @@ class WalletAdvance(models.Model):
     remaining_balance = models.DecimalField(default=Decimal(0.0), max_digits=7, decimal_places=2)
     payment_no = models.CharField(max_length=12, default=settings.ACTR_NO_PREFIX)
 
-    payed_on = models.DateField(verbose_name="Payed On")
+    # payed_on = models.DateField(verbose_name="Payed On")
+    payed_on = models.DateTimeField(verbose_name="Payed On", blank=True, null=True)
 
     image = models.ImageField(upload_to="parties/wallets/advances/", blank=True, null=True)
 
@@ -174,8 +175,9 @@ class WalletAdvance(models.Model):
         try:
             self.wallet.add_balance(amount=amount)
             self.wallet.full_clean()
-            # self.remaining_balance = self.wallet.balance
-            # self.save()
+            if not self.remaining_balance:
+                self.remaining_balance = self.wallet.balance
+            self.save()
         except ValidationError:
             self.delete()
 
@@ -200,10 +202,8 @@ def refund_and_delete(sender, instance, *args, **kwargs):
 
 def assign_opening_balance(sender, created, instance, *args, **kwargs):
     if created:
-        opening_balance = instance.wallet.balance
-        if instance.opening_balance != opening_balance:
-            instance.opening_balance = opening_balance
-            instance.save()
+        instance.opening_balance = instance.wallet.balance
+        instance.save()
 
 
 def assign_remaining_balance(sender, created, instance, *args, **kwargs):
@@ -218,3 +218,14 @@ post_save.connect(assign_opening_balance, sender=WalletAdvance)
 post_save.connect(assign_remaining_balance, sender=WalletAdvance)
 post_save.connect(add_amount_to_wallet, sender=WalletAdvance)
 pre_delete.connect(refund_and_delete, sender=WalletAdvance)
+
+
+#
+# import datetime
+# import random
+# from payments.models import WalletTransaction
+# for wt in WalletTransaction.objects.all():
+#     time = datetime.time(random.randint(1, 11), random.randint(1, 59), random.randint(1, 59))
+#     wt.payed_on = datetime.datetime.combine(wa.payed_on, time)
+#     wa.save()
+#
