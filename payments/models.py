@@ -144,6 +144,7 @@ class WalletTransaction(models.Model):
         self.previous_balance = self.wallet.balance
         self.wallet.deduct_balance(amount)
         self.deducted_amount += amount
+        self.remaining_balance = self.wallet.balance
         self.save()
 
     def update_amount(self, new_amount):
